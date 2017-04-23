@@ -30,7 +30,7 @@ command[0] = actualCC
 
 # Append current command
 cwd = os.getcwd()
-this = dict([('directory', cwd), ('command', command), ('file', sys.argv[-1])])
+this = dict([('directory', cwd), ('command', ' '.join(command)), ('file', sys.argv[-1])])
 ccdb.append(this)
 
 # Write out updated JSON
