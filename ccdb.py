@@ -20,5 +20,5 @@ ccdb.append(this)
 
 # Write out
 print ccdb
-json.write(ccdb, fp)
+json.dump(ccdb, fp)
 fp.close()
