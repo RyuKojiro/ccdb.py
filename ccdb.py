@@ -6,8 +6,12 @@ import os.path
 
 path = 'compile_commands.json'
 
+# Setup fp and ccdb objects
 if os.path.isfile(path):
-    f = open(path, 'r+')
-    ccdb = json.load(f)
+    fp = open(path, 'r+')
+    ccdb = json.load(fp)
+else:
+    fp = open(path, 'w')
+    ccdb = []
 
 print ccdb
