@@ -15,11 +15,12 @@ else:
     ccdb = []
 
 # Append current command
-this = dict([('directory', os.getcwd()), ('command', str(sys.argv)), ('file', sys.argv[-1])])
+cwd = os.getcwd()
+this = dict([('directory', cwd), ('command', str(sys.argv)), ('file', sys.argv[-1])])
 ccdb.append(this)
 
 # Write out
-print ccdb
+print 'Compilation database "' + cwd + '/' + path + '" appended.'
 fp = open(path, 'w')
 json.dump(ccdb, fp)
 fp.close()
