@@ -3,8 +3,11 @@
 import sys
 import json
 import os
+from subprocess import call
 
+# Constants
 path = 'compile_commands.json'
+actualCCKey = 'ACTUAL_CC'
 
 # Setup ccdb object
 if os.path.isfile(path):
@@ -24,3 +27,16 @@ print 'Compilation database "' + cwd + '/' + path + '" appended.'
 fp = open(path, 'w')
 json.dump(ccdb, fp)
 fp.close()
+
+# Pass through to the compiler
+newCommand = sys.argv
+
+if actualCCKey in os.environ:
+    actualCC = os.environ[actualCCKey]
+else:
+    # The safest assumption is just 'cc'
+    actualCC = 'cc'
+
+newCommand[0] = actualCC
+
+call(newCommand)
