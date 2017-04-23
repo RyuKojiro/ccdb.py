@@ -6,12 +6,12 @@ import os
 
 path = 'compile_commands.json'
 
-# Setup fp and ccdb objects
+# Setup ccdb object
 if os.path.isfile(path):
-    fp = open(path, 'r+')
+    fp = open(path, 'r')
     ccdb = json.load(fp)
+    fp.close()
 else:
-    fp = open(path, 'w')
     ccdb = []
 
 # Append current command
@@ -20,5 +20,6 @@ ccdb.append(this)
 
 # Write out
 print ccdb
+fp = open(path, 'w')
 json.dump(ccdb, fp)
 fp.close()
