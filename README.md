@@ -6,18 +6,17 @@ These are particularly useful for tools like [YouCompleteMe](https://github.com/
 ## How do I use it?
 `ccdb.py` just man-in-the-middles your compiler. So, the answer basically boils down to changing `CC` to point to `ccdb.py` and setting `ACTUAL_CC` to what `CC` was.
 
-Because build flags don't change very often, this is only intended to be done once, when you need to generate a `compile_commands.json`, and then reverted. Although, there is nothing really stopping you from leaving it in place, as long as you don't have a multi-compiler project, and remember to add a step that removes your `compile_commands.json` before each build.
+Because build flags don't change very often, this is only intended to be done once, when you need to generate a `compile_commands.json`. Although, as long as you don't have a multi-compiler project, there is nothing really stopping you from setting up your build to run it every time; just remember to add a step that removes your `compile_commands.json` before each build.
 
 ### Make
-For make, you'd add something to the top of your Makefile that looks like this:
+For make, you can just build once adding the necessary variables, like so:
 
 ```
-CC=/the/path/to/ccdb/ccdb.py
-ACTUAL_CC=clang
+make CC=/the/path/to/ccdb/ccdb.py ACTUAL_CC=clang
 ```
 
 ### Xcode
-I'm working on an plugin to add ccdb.py support to Xcode, but it's not done, yet.
+I'm working on an plugin to add `ccdb.py` support to Xcode, but it's not done, yet.
 
 ### CMake
 This tool isn't necessary for CMake, just set `CMAKE_EXPORT_COMPILE_COMMANDS` to `ON`.
