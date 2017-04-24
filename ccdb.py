@@ -27,7 +27,6 @@ else:
 
 command[0] = actualCC
 
-
 # Append current command
 cwd = os.getcwd()
 this = dict([('directory', cwd), ('command', ' '.join(command)), ('file', sys.argv[-1])])
