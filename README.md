@@ -11,12 +11,12 @@ Because build flags don't change very often, this is only intended to be done on
 ### Make
 For make, you can just build once adding the necessary variables, like so:
 
-```
-make CC=/the/path/to/ccdb/ccdb.py ACTUAL_CC=clang
-```
+	make CC=/the/path/to/ccdb/ccdb.py ACTUAL_CC=clang
 
 ### Xcode
-I'm working on an plugin to add `ccdb.py` support to Xcode, but it's not done, yet.
+Similarly to make, you can override variables on the command line:
+
+	xcodebuild CC=/the/path/to/ccdb/ccdb.py ACTUAL_CC=clang
 
 ### CMake
 This tool isn't necessary for CMake, just set `CMAKE_EXPORT_COMPILE_COMMANDS` to `ON`.
@@ -26,3 +26,8 @@ Ninja has the `compdb` tool, which solves this.
 
 ## But what about [insert language here]?
 Languages like Objective-C are quite simple, since you generally use the same compiler for C and Objective-C. C++ also works the same way, but only in pure C++ projects. However, mixed language projects that involve invoking two different compilers (like C/C++ together), require you to run it once for each compiler or assembler that is mixed in.
+
+## Why not Bear?
+- Bear uses `LD_PRELOAD`/`DYLD_INSERT_LIBRARIES`
+- Bear doesn't work with stuff like Apple's SIP
+- `ccdb.py` is 42 lines long…
