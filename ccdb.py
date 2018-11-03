@@ -5,6 +5,13 @@ import json
 import os
 from subprocess import call
 
+languages = [".m", ".c", ".cpp", ".cc", ".mm", ".cxx"]
+def FileForInvocation(argv):
+    for arg in argv:
+        for ext in languages:
+            if arg.endswith(ext):
+                return arg
+
 # Constants
 path = 'compile_commands.json'
 actualCCKey = 'ACTUAL_CC'
@@ -27,9 +34,9 @@ else:
 
 command[0] = actualCC
 
-# Append current command
+# Append current command to database
 cwd = os.getcwd()
-this = dict([('directory', cwd), ('command', ' '.join(command)), ('file', sys.argv[-1])])
+this = dict([('directory', cwd), ('command', ' '.join(command)), ('file', FileForInvocation(command))])
 ccdb.append(this)
 
 # Write out updated JSON
