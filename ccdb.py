@@ -6,10 +6,9 @@ import os
 from subprocess import call
 import fcntl
 
-languages = [".m", ".c", ".cpp", ".cc", ".mm", ".cxx"]
 def FileForInvocation(argv):
     for arg in argv:
-        for ext in languages:
+        for ext in [".c", ".m", ".cpp", ".cc", ".cxx", ".mm"]:
             if arg.endswith(ext):
                 return arg
 
