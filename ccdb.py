@@ -15,6 +15,7 @@ def FileForInvocation(argv):
 # Constants
 path = 'compile_commands.json'
 actualCCKey = 'ACTUAL_CC'
+cwd = os.getcwd()
 
 # Open and lock the file
 fp = open(path, 'w+')
@@ -35,16 +36,15 @@ else:
     command[0] = 'cc' # The safest assumption is just 'cc'
 
 # Append current command to database
-cwd = os.getcwd()
 this = dict([('directory', cwd), ('command', ' '.join(command)), ('file', FileForInvocation(command))])
 ccdb.append(this)
 
 # Write out updated JSON
-print 'Compilation database "' + cwd + '/' + path + '" appended.'
 json.dump(ccdb, fp)
+fp.flush()
+print 'Compilation database "' + cwd + '/' + path + '" appended.'
 
 # Unlock and cleanup
-fp.flush()
 fcntl.flock(fp, fcntl.LOCK_UN)
 fp.close()
 
