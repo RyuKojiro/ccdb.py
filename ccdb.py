@@ -4,6 +4,7 @@ import sys
 import json
 import os
 from subprocess import call
+import fcntl
 
 languages = [".m", ".c", ".cpp", ".cc", ".mm", ".cxx"]
 def FileForInvocation(argv):
@@ -16,12 +17,15 @@ def FileForInvocation(argv):
 path = 'compile_commands.json'
 actualCCKey = 'ACTUAL_CC'
 
+# Open and lock the file
+fp = open(path, 'w+')
+fcntl.flock(fp, fcntl.LOCK_EX)
+
 # Setup ccdb object by reading in old JSON or initializing
-if os.path.isfile(path):
-    fp = open(path, 'r')
+try:
     ccdb = json.load(fp)
-    fp.close()
-else:
+    fp.seek(0, 0)
+except:
     ccdb = []
 
 # Change command to reflect what would actually go to the compiler
@@ -41,9 +45,12 @@ ccdb.append(this)
 
 # Write out updated JSON
 print 'Compilation database "' + cwd + '/' + path + '" appended.'
-fp = open(path, 'w')
 json.dump(ccdb, fp)
+
+# Unlock and cleanup
+fp.flush()
+fcntl.flock(fp, fcntl.LOCK_UN)
 fp.close()
 
-# Pass through to the compiler
+# Pass through to the compiler so that the build will actually succeed
 call(command)
