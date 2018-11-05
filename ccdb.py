@@ -27,15 +27,12 @@ try:
 except:
     ccdb = []
 
-# Change command to reflect what would actually go to the compiler
+# Swap out ccbd.py with the actual compiler
 command = sys.argv
-
 if actualCCKey in os.environ:
-    actualCC = os.environ[actualCCKey]
+    command[0] = os.environ[actualCCKey]
 else:
-    actualCC = 'cc' # The safest assumption is just 'cc'
-
-command[0] = actualCC
+    command[0] = 'cc' # The safest assumption is just 'cc'
 
 # Append current command to database
 cwd = os.getcwd()
@@ -51,5 +48,5 @@ fp.flush()
 fcntl.flock(fp, fcntl.LOCK_UN)
 fp.close()
 
-# Pass through to the compiler so that the build will actually succeed
+# Invoke the compiler so that the build will actually succeed
 call(command)
